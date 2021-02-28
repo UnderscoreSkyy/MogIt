@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "mogit",
+  "version": "${version}",
+  "name": "Mog It",
+  "description": "Transmogrification in minecraft",
+  "authors": [
+    "_Skyy"
+  ],
+  "contact": {
+    "website": "https://github.com/UnderscoreSkyy/MogIt",
+    "repo": "https://github.com/UnderscoreSkyy/MogIt"
+  },
+  "license": "MIT",
+  "icon": "assets/mogit/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "underscore.skyy.mogit.MogitClient"
+    ],
+    "main": [
+      "underscore.skyy.mogit.Mogit"
+    ]
+  },
+  "mixins": [
+    "mogit.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.2",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}
