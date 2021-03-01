@@ -1,6 +1,7 @@
 package underscore.skyy.mogit.utils;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -17,6 +18,7 @@ public final class MogItRegistry {
      */
     public static void setup() {
         registerBlocks();
+        registerBlocksEntities();
         registerItems();
     }
 
@@ -24,7 +26,14 @@ public final class MogItRegistry {
      * Register all blocks of the mod
      */
     private static void registerBlocks() {
-        register(MogItContent.Blocks.TRANSMOGRIFICATION_TABLE, "transmogrification_table", MogItContent.Items.TRANSMOGRIFICATION_TABLE);
+        // no-op
+    }
+
+    /**
+     * Register all blockentities of the mod
+     */
+    private static void registerBlocksEntities() {
+        register(MogItContent.BlockEntities.TRANSMOGRIFICATION_TABLE, MogItContent.Blocks.TRANSMOGRIFICATION_TABLE, "transmogrification_table", MogItContent.Items.TRANSMOGRIFICATION_TABLE);
     }
 
     /**
@@ -52,6 +61,11 @@ public final class MogItRegistry {
     private static void register(Block block, String name, @Nullable BlockItem blockItem) {
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, name), block);
         if(blockItem != null) { register(blockItem, name); }
+    }
+
+    private static void register(BlockEntityType blockEntity, Block block, String name, @Nullable BlockItem blockItem) {
+        register(block, name, blockItem);
+        Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, name), blockEntity);
     }
 
 }
