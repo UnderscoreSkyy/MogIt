@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "E#E",
+    "###"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "#": {
+      "item": "minecraft:gray_glazed_terracotta"
+    },
+    "E": {
+      "item": "minecraft:end_crystal"
+    }
+  },
+  "result": {
+    "item": "mog_it:transmogrification_table"
+  }
+}
