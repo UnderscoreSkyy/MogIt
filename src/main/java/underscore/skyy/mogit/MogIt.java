@@ -30,7 +30,7 @@ public class MogIt implements ModInitializer {
     public void onInitialize() {
         INSTANCE = this;
 
-        MogItRegistry.setup();
+        MogItRegistry.setupServer();
         LOGGER.info(MOD_NAME.concat(" have been initialized."));
         LOGGER.info("\"I foresee a mutually beneficial transaction.\"");
     }

@@ -8,10 +8,12 @@ import net.minecraft.block.MaterialColor;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Rarity;
-import underscore.skyy.mogit.common.blockentities.TransmogrificationTableBlockEntity;
 import underscore.skyy.mogit.common.blocks.TransmogrificationTableBlock;
+import underscore.skyy.mogit.common.blocks.entities.TransmogrificationTableBlockEntity;
 import underscore.skyy.mogit.common.items.LivingMatterItem;
+import underscore.skyy.mogit.common.screens.TransmogrificationTableScreenHandler;
 
 import static underscore.skyy.mogit.MogIt.ITEMGROUP;
 
@@ -26,7 +28,7 @@ public class MogItContent {
         }
     }
 
-    public static class BlockEntities {
+    public static class BlockEntitiesTypes {
         public static final BlockEntityType<TransmogrificationTableBlockEntity> TRANSMOGRIFICATION_TABLE;
 
         static {
@@ -47,5 +49,11 @@ public class MogItContent {
             LIVING_MATTER = new LivingMatterItem(settings.rarity(Rarity.RARE));
             TRANSMOGRIFICATION_TABLE = new BlockItem(Blocks.TRANSMOGRIFICATION_TABLE, settings.rarity(Rarity.EPIC).maxCount(1));
         }
+    }
+
+    public static class ScreenHandlerTypes {
+
+        public static ScreenHandlerType<TransmogrificationTableScreenHandler> TRANSMOGRIFICATION_TABLE;
+
     }
 }
