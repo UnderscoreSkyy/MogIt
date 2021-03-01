@@ -11,7 +11,7 @@ import underscore.skyy.mogit.common.MogItContent;
 import underscore.skyy.mogit.utils.MogItRegistry;
 
 /**
- * Main class for Mog It mod
+ * Main class for Mog It mod.
  */
 public class MogIt implements ModInitializer {
 
@@ -32,6 +32,6 @@ public class MogIt implements ModInitializer {
 
         MogItRegistry.setup();
         LOGGER.info(MOD_NAME.concat(" have been initialized."));
-        LOGGER.info("\"I forsee a mutualy benefical transaction.\"");
+        LOGGER.info("\"I foresee a mutually beneficial transaction.\"");
     }
 }
