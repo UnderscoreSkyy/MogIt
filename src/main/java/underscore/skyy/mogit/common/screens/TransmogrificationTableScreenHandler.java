@@ -34,9 +34,7 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
         int l;
         //Our inventory
         for (m = 0; m < 3; ++m) {
-            for (l = 0; l < 3; ++l) {
-                this.addSlot(new Slot(inventory, l + m * 3, 62 + l * 18, 17 + m * 18));
-            }
+                this.addSlot(new Slot(inventory, m, 62 + m * 18, 17 ));
         }
         //The player inventory
         for (m = 0; m < 3; ++m) {
