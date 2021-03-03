@@ -17,10 +17,27 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    //modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-    // You may need to force-disable transitiveness on them.
+    Set<String> apiModules = [
+            "fabric-api-base",
+            "fabric-crash-report-info-v1",
+            "fabric-item-api-v1",
+            "fabric-item-groups-v0",
+            "fabric-networking-api-v1",
+            "fabric-object-builder-api-v1",
+            "fabric-registry-sync-v0",
+            "fabric-resource-loader-v0",
+            "fabric-screen-handler-api-v1",
+            "fabric-tag-extensions-v0",
+            "fabric-tool-attribute-api-v1",
+    ]
+
+    apiModules.forEach {
+        include(modImplementation(fabricApi.module(it, project.fabric_version)))
+    }
+
+    // Only include in jar used api modules
 }
 
 processResources {
@@ -63,15 +80,16 @@ publishing {
             artifact(remapJar) {
                 builtBy remapJar
             }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
+
+            //artifact(sourcesJar) {
+            //    builtBy remapSourcesJar
+            //}
         }
     }
 
     // select the repositories you want to publish to
     repositories {
         // uncomment to publish to the local maven
-        // mavenLocal()
+        mavenLocal()
     }
 }
