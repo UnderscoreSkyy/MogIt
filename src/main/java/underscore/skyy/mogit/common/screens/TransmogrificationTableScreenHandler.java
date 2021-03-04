@@ -1,15 +1,32 @@
 package underscore.skyy.mogit.common.screens;
 
+import com.mojang.datafixers.util.Pair;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import underscore.skyy.mogit.MogIt;
 import underscore.skyy.mogit.common.MogItContent;
 
+import static net.minecraft.screen.PlayerScreenHandler.*;
+
 public class TransmogrificationTableScreenHandler extends ScreenHandler {
+
+    private static final Logger LOGGER = LogManager.getLogger(MogIt.MOD_NAME + " | " + TransmogrificationTableScreenHandler.class);
+    private static final EquipmentSlot[] EQUIPMENT_SLOT_ORDER;
+    private static final Identifier[] EMPTY_ARMOR_SLOT_TEXTURES;
     private final Inventory inventory;
 
     //This constructor gets called on the client when the server wants it to open the screenHandler,
@@ -25,26 +42,57 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
         super(MogItContent.ScreenHandlerTypes.TRANSMOGRIFICATION_TABLE, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
+
         //some inventories do custom logic when a player opens it.
         inventory.onOpen(playerInventory.player);
 
-        //This will place the slot in the correct locations for a 3x3 Grid. The slots exist on both server and client!
-        //This will not render the background of the slots however, this is the Screens job
-        int m;
-        int l;
-        //Our inventory
-        for (m = 0; m < 3; ++m) {
-                this.addSlot(new Slot(inventory, m, 62 + m * 18, 17 ));
+        // Equipements
+        for(int n = 0; n < 4; ++n) {
+            final EquipmentSlot equipmentSlot = EQUIPMENT_SLOT_ORDER[n];
+
+            this.addSlot(new Slot(playerInventory, 39 - n, 5, 37 + n * 22) {
+                public int getMaxItemCount() {
+                    return 1;
+                }
+
+                public boolean canInsert(ItemStack stack) {
+                    return equipmentSlot == MobEntity.getPreferredEquipmentSlot(stack);
+                }
+
+                public boolean canTakeItems(PlayerEntity playerEntity) {
+                    ItemStack itemStack = this.getStack();
+                    return (itemStack.isEmpty() || playerEntity.isCreative() || !EnchantmentHelper.hasBindingCurse(itemStack)) && super.canTakeItems(playerEntity);
+                }
+
+                @Environment(EnvType.CLIENT)
+                public Pair<Identifier, Identifier> getBackgroundSprite() {
+                    return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, EMPTY_ARMOR_SLOT_TEXTURES[equipmentSlot.getEntitySlotId()]);
+                }
+            });
         }
-        //The player inventory
-        for (m = 0; m < 3; ++m) {
-            for (l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + m * 9 + 9, 8 + l * 18, 84 + m * 18));
+
+        // Main Hand
+        this.addSlot(new Slot(playerInventory, playerInventory.selectedSlot, 30, 142));
+
+        // Off Hand
+        this.addSlot(new Slot(playerInventory, 40, 58, 142) {
+            @Environment(EnvType.CLIENT)
+            public Pair<Identifier, Identifier> getBackgroundSprite() {
+                return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, PlayerScreenHandler.EMPTY_OFFHAND_ARMOR_SLOT);
+            }
+        });
+
+        // Inventory
+        int k;
+        for(k = 0; k < 3; ++k) {
+            for(int j = 0; j < 9; ++j) {
+                this.addSlot(new Slot(playerInventory, j + k * 9 + 9, 108 + j * 18, 84 + k * 18));
             }
         }
-        //The player Hotbar
-        for (m = 0; m < 9; ++m) {
-            this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 142));
+
+        // Hot Bar
+        for(k = 0; k < 9; ++k) {
+            this.addSlot(new Slot(playerInventory, k, 108 + k * 18, 142));
         }
 
     }
@@ -78,5 +126,10 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
         }
 
         return newStack;
+    }
+
+    static {
+        EMPTY_ARMOR_SLOT_TEXTURES = new Identifier[]{EMPTY_BOOTS_SLOT_TEXTURE, EMPTY_LEGGINGS_SLOT_TEXTURE, EMPTY_CHESTPLATE_SLOT_TEXTURE, EMPTY_HELMET_SLOT_TEXTURE};
+        EQUIPMENT_SLOT_ORDER = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
     }
 }
