@@ -51,19 +51,23 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
             final EquipmentSlot equipmentSlot = EQUIPMENT_SLOT_ORDER[n];
 
             this.addSlot(new Slot(playerInventory, 39 - n, 5, 37 + n * 22) {
+                @Override
                 public int getMaxItemCount() {
                     return 1;
                 }
 
+                @Override
                 public boolean canInsert(ItemStack stack) {
                     return equipmentSlot == MobEntity.getPreferredEquipmentSlot(stack);
                 }
 
+                @Override
                 public boolean canTakeItems(PlayerEntity playerEntity) {
                     ItemStack itemStack = this.getStack();
                     return (itemStack.isEmpty() || playerEntity.isCreative() || !EnchantmentHelper.hasBindingCurse(itemStack)) && super.canTakeItems(playerEntity);
                 }
 
+                @Override
                 @Environment(EnvType.CLIENT)
                 public Pair<Identifier, Identifier> getBackgroundSprite() {
                     return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, EMPTY_ARMOR_SLOT_TEXTURES[equipmentSlot.getEntitySlotId()]);
@@ -77,6 +81,7 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
         // Off Hand
         this.addSlot(new Slot(playerInventory, 40, 58, 142) {
             @Environment(EnvType.CLIENT)
+            @Override
             public Pair<Identifier, Identifier> getBackgroundSprite() {
                 return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, PlayerScreenHandler.EMPTY_OFFHAND_ARMOR_SLOT);
             }

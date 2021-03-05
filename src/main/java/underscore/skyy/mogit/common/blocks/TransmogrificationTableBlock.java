@@ -27,10 +27,12 @@ public class TransmogrificationTableBlock extends BlockWithEntity {
         super(settings);
     }
 
+    @Override
     public boolean hasSidedTransparency(BlockState state) {
         return true;
     }
 
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
@@ -49,6 +51,7 @@ public class TransmogrificationTableBlock extends BlockWithEntity {
 
 
     @Environment(EnvType.CLIENT)
+    @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
 

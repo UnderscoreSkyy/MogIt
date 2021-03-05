@@ -18,9 +18,8 @@ public class MogIt implements ModInitializer {
     // Global Constants
     public static final String MOD_ID = "mog_it";
     public static final String MOD_NAME = "Mog it";
-    public static MogIt INSTANCE;
 
-    public static ItemGroup ITEMGROUP = FabricItemGroupBuilder.build(
+    public static final ItemGroup ITEMGROUP = FabricItemGroupBuilder.build(
             new Identifier(MOD_ID, "item_group"),
             () -> new ItemStack(MogItContent.Items.LIVING_MATTER));
 
@@ -28,10 +27,8 @@ public class MogIt implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        INSTANCE = this;
-
         MogItRegistry.setupServer();
-        LOGGER.info(MOD_NAME.concat(" have been initialized."));
+        LOGGER.info("{} have been initialized.", MOD_NAME);
         LOGGER.info("\"I foresee a mutually beneficial transaction.\"");
     }
 }

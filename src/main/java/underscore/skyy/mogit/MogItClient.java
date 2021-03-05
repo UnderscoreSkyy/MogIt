@@ -19,6 +19,9 @@ public class MogItClient implements ClientModInitializer {
     private static final Logger LOGGER = LogManager.getLogger(MOD_NAME.concat(" | Client"));
     @Override
     public void onInitializeClient() {
+
         MogItRegistry.setupClient();
+        LOGGER.info("{} Client | have been initialized.", MOD_NAME);
+        LOGGER.info("\"I foresee a mutually beneficial transaction.\"");
     }
 }

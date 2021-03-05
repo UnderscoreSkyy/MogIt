@@ -19,7 +19,15 @@ import static underscore.skyy.mogit.MogIt.ITEMGROUP;
 
 public class MogItContent {
 
+    private MogItContent() {
+        // no-op
+    }
+
     public static class Blocks {
+
+        private Blocks() {
+            // no-op
+        }
 
         public static final Block TRANSMOGRIFICATION_TABLE;
 
@@ -29,6 +37,10 @@ public class MogItContent {
     }
 
     public static class BlockEntitiesTypes {
+        private BlockEntitiesTypes() {
+            // no-op
+        }
+
         public static final BlockEntityType<TransmogrificationTableBlockEntity> TRANSMOGRIFICATION_TABLE;
 
         static {
@@ -37,6 +49,10 @@ public class MogItContent {
     }
 
     public static class Items {
+        private Items() {
+            // no-op
+        }
+
         private static final FabricItemSettings settings = new FabricItemSettings().group(ITEMGROUP);
 
         // Items
@@ -53,6 +69,11 @@ public class MogItContent {
 
     public static class ScreenHandlerTypes {
 
+        private ScreenHandlerTypes() {
+            // no-op
+        }
+
+        @SuppressWarnings("PublicField")
         public static ScreenHandlerType<TransmogrificationTableScreenHandler> TRANSMOGRIFICATION_TABLE;
 
     }

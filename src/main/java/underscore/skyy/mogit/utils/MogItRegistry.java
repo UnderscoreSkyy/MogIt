@@ -21,6 +21,10 @@ import static underscore.skyy.mogit.MogIt.MOD_ID;
 
 public final class MogItRegistry {
 
+    private MogItRegistry() {
+        //no-op
+    }
+
     /**
      * Setup function to register all necessary object for the mod
      */

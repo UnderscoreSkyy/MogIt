@@ -91,9 +91,7 @@ public class TransmogrificationTableScreen extends HandledScreen<ScreenHandler> 
             entityRenderDispatcher.setRenderShadows(false);
 
             VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-            RenderSystem.runAsFancy(() -> {
-                entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880);
-            });
+            RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixStack, immediate, 15728880));
             immediate.draw();
             entityRenderDispatcher.setRenderShadows(true);
             entity.bodyYaw = h;
