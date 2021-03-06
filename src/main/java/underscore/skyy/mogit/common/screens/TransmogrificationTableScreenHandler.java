@@ -10,24 +10,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import underscore.skyy.mogit.MogIt;
 import underscore.skyy.mogit.common.MogItContent;
 
 import static net.minecraft.screen.PlayerScreenHandler.*;
 
 public class TransmogrificationTableScreenHandler extends ScreenHandler {
 
-    private static final Logger LOGGER = LogManager.getLogger(MogIt.MOD_NAME + " | " + TransmogrificationTableScreenHandler.class);
     private static final EquipmentSlot[] EQUIPMENT_SLOT_ORDER;
     private static final Identifier[] EMPTY_ARMOR_SLOT_TEXTURES;
     private final Inventory inventory;
+    private final PlayerInventory playerInventory;
 
     //This constructor gets called on the client when the server wants it to open the screenHandler,
     //The client will call the other constructor with an empty Inventory and the screenHandler will automatically
@@ -42,11 +40,21 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
         super(MogItContent.ScreenHandlerTypes.TRANSMOGRIFICATION_TABLE, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
+        this.playerInventory = playerInventory;
 
         //some inventories do custom logic when a player opens it.
         inventory.onOpen(playerInventory.player);
 
-        // Equipements
+        addGearSlots();
+        addPlayerInventory();
+        addPlayerHotbar();
+
+        setupTransmogrificationTableSlot();
+
+    }
+
+    private void addGearSlots() {
+        // Head, chest, legs, feet
         for(int n = 0; n < 4; ++n) {
             final EquipmentSlot equipmentSlot = EQUIPMENT_SLOT_ORDER[n];
 
@@ -86,19 +94,48 @@ public class TransmogrificationTableScreenHandler extends ScreenHandler {
                 return Pair.of(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, PlayerScreenHandler.EMPTY_OFFHAND_ARMOR_SLOT);
             }
         });
+    }
 
-        // Inventory
-        int k;
-        for(k = 0; k < 3; ++k) {
+    private void addPlayerInventory() {
+        for(int k = 0; k < 3; ++k) {
             for(int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(playerInventory, j + k * 9 + 9, 108 + j * 18, 84 + k * 18));
             }
         }
+    }
 
-        // Hot Bar
-        for(k = 0; k < 9; ++k) {
+    private void addPlayerHotbar() {
+        for(int k = 0; k < 9; ++k) {
             this.addSlot(new Slot(playerInventory, k, 108 + k * 18, 142));
         }
+    }
+
+    private void setupTransmogrificationTableSlot() {
+        this.addSlot(new Slot(this.inventory, 0, 117, 24) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return stack.getItem() == MogItContent.Items.LIVING_MATTER;
+            }
+        });
+
+        this.addSlot(new Slot(this.inventory, 1, 117, 49) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return true;
+            }
+
+            @Override
+            public int getMaxItemCount() {
+                return 1;
+            }
+        });
+
+        this.addSlot(new Slot(this.inventory, 2, 150, 51) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return stack.getItem()instanceof DyeItem;
+            }
+        });
 
     }
 
